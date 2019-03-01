@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Payment.fs" />
+    <Compile Include="Parking.SimpleTypes.fs" />
+    <Compile Include="Parking.Types.fs" />
+    <Compile Include="Parking.Functions.fs" />
+    <Compile Include="Parking.Implementation.fs" />
+  </ItemGroup>
+
+  <ItemGroup />
+
+</Project>
