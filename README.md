@@ -1,4 +1,4 @@
-# ParkingLotModelingFSharp
+# Parking Domain Modeling in F#
 
 This is F# implementation of Car Parking domain modeling. It is inspired from the book "Domain Modeling Made Functional" by Scott Wlaschin and "Types + Properties = Software" blog series by Mark Seemann.
 
@@ -26,3 +26,7 @@ Motorcycles will be given parking slot as per avaialability in following prefere
 Cars will be given parking slot as per availability in following preference:
 1. Compact Parking Slot
 2. Large Parking Slot
+
+When a vehicle arrives it should be given closest available slot as per above preference. A parking ticket should be printed with the In time.
+
+When a vehicle leaves, it should be charged as per amount of time it was parked for and vehicle type.
