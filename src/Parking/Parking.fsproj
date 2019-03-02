@@ -9,7 +9,7 @@
     <Compile Include="Parking.SimpleTypes.fs" />
     <Compile Include="Parking.Types.fs" />
     <Compile Include="Parking.Functions.fs" />
-    <Compile Include="Parking.Implementation.fs" />
+    <Compile Include="Parking.CarParking.fs" />
   </ItemGroup>
 
   <ItemGroup />

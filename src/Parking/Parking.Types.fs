@@ -21,8 +21,10 @@ type LargeParkingSlotState =
     | OccupiedByTwoCars of Car * Car
     | OccupiedByMotorcycle of Motorcycle
     | OccupiedByTwoMotorcycles of Motorcycle * Motorcycle
-    | OccupiedByThreeMotorcycle of Motorcycle * Motorcycle * Motorcycle
-    | OccupiedByFourMotorcycle of Motorcycle * Motorcycle * Motorcycle * Motorcycle
+    | OccupiedByThreeMotorcycles of Motorcycle * Motorcycle * Motorcycle
+    | OccupiedByFourMotorcycles of Motorcycle * Motorcycle * Motorcycle * Motorcycle
+    | OccupiedByMotorcycleAndCar of Motorcycle * Car
+    | OccupiedByTwoMotorcyclesAndCar of Motorcycle * Motorcycle * Car
 
 type CompactParkingSlotState = 
     | Empty
