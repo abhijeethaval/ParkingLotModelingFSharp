@@ -59,7 +59,7 @@ let CanParkMotorcycle(slotState: ParkingSlotState) =
     | Compact compactSlotState -> compactSlotState |> CanParkMotorcycleInCompactSlot
     | Motorcycle motorcycleSlotState -> motorcycleSlotState |> CanParkMotorcycleInMotorcycleSlot
 
-let ParkMotorrcycle(slotState: ParkingSlotState) (motorcycle: Motorcycle) =
+let ParkMotorcycle(slotState: ParkingSlotState) (motorcycle: Motorcycle) =
     match slotState with
     | Large largeSlotState -> 
         let result = motorcycle |> ParkMotorcycleInLargeSlot largeSlotState

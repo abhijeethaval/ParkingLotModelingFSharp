@@ -34,7 +34,7 @@ let CanParkTruck(slotState: ParkingSlotState) =
     | ParkingSlotState.Compact _ -> false
     | ParkingSlotState.Motorcycle _ -> false
 
-let ParkTruck(slotState: ParkingSlotState, truck: Truck) =
+let ParkTruck(slotState: ParkingSlotState) (truck: Truck) =
     match slotState with
     | Large largeSlotState -> 
         let result = truck |> ParkTruckInLargeSlot largeSlotState

@@ -12,6 +12,7 @@
     <Compile Include="Parking.TruckParking.fs" />
     <Compile Include="Parking.CarParking.fs" />
     <Compile Include="Parking.MotorcycleParking.fs" />
+    <Compile Include="Parking.Implementation.fs" />
   </ItemGroup>
 
   <ItemGroup />
