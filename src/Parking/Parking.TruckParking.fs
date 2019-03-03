@@ -2,8 +2,8 @@
 
 open Parking
 
-let CanParkTruckInLargeSlot (slot: LargeParkingSlot) =
-    match slot.State with
+let CanParkTruckInLargeSlot (slotState: LargeParkingSlotState) =
+    match slotState with
     | LargeParkingSlotState.Empty -> true
     | LargeParkingSlotState.OccupiedByCar _ -> false
     | LargeParkingSlotState.OccupiedByMotorcycle _ -> false
@@ -15,31 +15,31 @@ let CanParkTruckInLargeSlot (slot: LargeParkingSlot) =
     | LargeParkingSlotState.OccupiedByThreeMotorcycles _ -> false
     | LargeParkingSlotState.OccupiedByFourMotorcycles _ -> false
 
-let ParkTruckInLargeSlot (slot: LargeParkingSlot, truck : Truck) =
-    match slot.State with
-    | LargeParkingSlotState.Empty -> Ok ({ParkingSlotNumber = slot.ParkingSlotNumber; State = LargeParkingSlotState.Occupied(truck)}: LargeParkingSlot)
-    | LargeParkingSlotState.OccupiedByCar _ -> Error "Occupied by car"
-    | LargeParkingSlotState.OccupiedByMotorcycle _ -> Error "Occupied by motorcycle"
-    | LargeParkingSlotState.OccupiedByTwoMotorcycles _ -> Error "Occupied by two motorcycle"
-    | LargeParkingSlotState.Occupied _ -> Error "Occupied by truck"
-    | LargeParkingSlotState.OccupiedByTwoCars _ -> Error "Occupied by two cars"
-    | LargeParkingSlotState.OccupiedByMotorcycleAndCar _ -> Error "Occupied by motorcycles and a car"
-    | LargeParkingSlotState.OccupiedByTwoMotorcyclesAndCar _ -> Error "Occupied by two motorcycles and a car"
-    | LargeParkingSlotState.OccupiedByThreeMotorcycles _ -> Error "Occupied by three motorcycles"
-    | LargeParkingSlotState.OccupiedByFourMotorcycles _ -> Error "Occupied by four motorcycles"
+let ParkTruckInLargeSlot (slotState: LargeParkingSlotState) (truck : Truck) =
+    match slotState with
+    | LargeParkingSlotState.Empty -> truck|> LargeParkingSlotState.Occupied |> Ok
+    | LargeParkingSlotState.OccupiedByCar _ -> "Occupied by car" |> Error
+    | LargeParkingSlotState.OccupiedByMotorcycle _ -> "Occupied by motorcycle" |> Error
+    | LargeParkingSlotState.OccupiedByTwoMotorcycles _ -> "Occupied by two motorcycle" |> Error
+    | LargeParkingSlotState.Occupied _ -> "Occupied by truck" |> Error
+    | LargeParkingSlotState.OccupiedByTwoCars _ -> "Occupied by two cars" |> Error
+    | LargeParkingSlotState.OccupiedByMotorcycleAndCar _ -> "Occupied by motorcycles and a car" |> Error
+    | LargeParkingSlotState.OccupiedByTwoMotorcyclesAndCar _ -> "Occupied by two motorcycles and a car" |> Error
+    | LargeParkingSlotState.OccupiedByThreeMotorcycles _ -> "Occupied by three motorcycles" |> Error
+    | LargeParkingSlotState.OccupiedByFourMotorcycles _ -> "Occupied by four motorcycles" |> Error
 
-let CanParkTruck(slot: ParkingSlot) =
-    match slot with
-    | Large large -> CanParkTruckInLargeSlot large
-    | Compact _ -> false
-    | Motorcycle _ -> false
+let CanParkTruck(slotState: ParkingSlotState) =
+    match slotState with
+    | ParkingSlotState.Large state -> CanParkTruckInLargeSlot state
+    | ParkingSlotState.Compact _ -> false
+    | ParkingSlotState.Motorcycle _ -> false
 
-let ParkTruck(slot: ParkingSlot, truck: Truck) =
-    match slot with
-    | Large largeSlot -> 
-        let result = ParkTruckInLargeSlot(largeSlot, truck) 
+let ParkTruck(slotState: ParkingSlotState, truck: Truck) =
+    match slotState with
+    | Large largeSlotState -> 
+        let result = truck |> ParkTruckInLargeSlot largeSlotState
         match result with
-        | Ok large -> Ok(ParkingSlot.Large(large))
+        | Ok largeSlotState -> largeSlotState |> Large |> Ok
         | Error e -> Error e
     | Compact _ -> Error "Cannot park truck in Compact slot"
     | Motorcycle _ -> Error "Cannot park truck in motocycle slot"
