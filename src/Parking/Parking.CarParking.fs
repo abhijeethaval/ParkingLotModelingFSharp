@@ -1,4 +1,4 @@
-module Parking.Implementation
+module Parking.CarParking
 
 open Parking
 
