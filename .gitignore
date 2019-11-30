@@ -4,3 +4,5 @@
 
 /src/Parking/bin/Debug/netcoreapp2.1
 /src/Parking/obj
+/.vs/Parking
+/src/ParkingCSharp

@@ -16,7 +16,7 @@ type Vehicle =
 
 type LargeParkingSlotState = 
     | Empty
-    | Occupied of Truck
+    | OccupiedByTruck of Truck
     | OccupiedByCar of Car
     | OccupiedByTwoCars of Car * Car
     | OccupiedByMotorcycle of Motorcycle
@@ -28,13 +28,13 @@ type LargeParkingSlotState =
 
 type CompactParkingSlotState = 
     | Empty
-    | Occupied of Car
+    | OccupiedByCar of Car
     | OccupiedByMotorcycle of Motorcycle
     | OccupiedByTwoMotorcycles of Motorcycle * Motorcycle
 
 type MotorcycleParkingSlotState = 
     | Empty
-    | Occupied of Motorcycle
+    | OccupiedByMotorcycle of Motorcycle
 
 type ParkingSlotState = 
     | Large of LargeParkingSlotState
