@@ -2,7 +2,7 @@
 
 open Parking
 
-let CanParkTruckInLargeSlot (slotState: LargeParkingSlotState) =
+let CanParkTruckInLargeSlot (slotState) =
     match slotState with
     | LargeParkingSlotState.Empty -> true
     | LargeParkingSlotState.OccupiedByCar _ -> false
@@ -15,7 +15,7 @@ let CanParkTruckInLargeSlot (slotState: LargeParkingSlotState) =
     | LargeParkingSlotState.OccupiedByThreeMotorcycles _ -> false
     | LargeParkingSlotState.OccupiedByFourMotorcycles _ -> false
 
-let ParkTruckInLargeSlot (slotState: LargeParkingSlotState) (truck : Truck) =
+let ParkTruckInLargeSlot (slotState) (truck) =
     match slotState with
     | LargeParkingSlotState.Empty -> truck|> LargeParkingSlotState.OccupiedByTruck |> Ok
     | LargeParkingSlotState.OccupiedByCar _ -> "Occupied by car" |> Error
@@ -28,18 +28,18 @@ let ParkTruckInLargeSlot (slotState: LargeParkingSlotState) (truck : Truck) =
     | LargeParkingSlotState.OccupiedByThreeMotorcycles _ -> "Occupied by three motorcycles" |> Error
     | LargeParkingSlotState.OccupiedByFourMotorcycles _ -> "Occupied by four motorcycles" |> Error
 
-let CanParkTruck(slotState: ParkingSlotState) =
-    match slotState with
-    | ParkingSlotState.Large state -> CanParkTruckInLargeSlot state
-    | ParkingSlotState.Compact _ -> false
-    | ParkingSlotState.Motorcycle _ -> false
+let CanParkTruck(parkingSlot) =
+    match parkingSlot with
+    | ParkingSlot.Large (state, _) -> CanParkTruckInLargeSlot state
+    | ParkingSlot.Compact _ -> false
+    | ParkingSlot.Motorcycle _ -> false
 
-let ParkTruck(slotState: ParkingSlotState) (truck: Truck) =
-    match slotState with
-    | Large largeSlotState -> 
-        let result = truck |> ParkTruckInLargeSlot largeSlotState
+let ParkTruck(parkingSlot) (truck) =
+    match parkingSlot with
+    | ParkingSlot.Large (state, number) -> 
+        let result = truck |> ParkTruckInLargeSlot state
         match result with
-        | Ok largeSlotState -> largeSlotState |> Large |> Ok
+        | Ok largeSlotState -> ParkingSlot.Large (largeSlotState, number) |> Ok
         | Error e -> Error e
     | Compact _ -> Error "Cannot park truck in Compact slot"
     | Motorcycle _ -> Error "Cannot park truck in motocycle slot"

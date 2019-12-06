@@ -36,15 +36,10 @@ type MotorcycleParkingSlotState =
     | Empty
     | OccupiedByMotorcycle of Motorcycle
 
-type ParkingSlotState = 
-    | Large of LargeParkingSlotState
-    | Compact of CompactParkingSlotState
-    | Motorcycle of MotorcycleParkingSlotState
-
-type ParkingSlot = {
-    ParkingSlotNumber: ParkingSlotNumber
-    State: ParkingSlotState
-}
+type ParkingSlot = 
+    | Large of LargeParkingSlotState * ParkingSlotNumber
+    | Compact of CompactParkingSlotState * ParkingSlotNumber
+    | Motorcycle of MotorcycleParkingSlotState * ParkingSlotNumber
 
 type ParkingFloor = {
     Slots : ParkingSlot list

@@ -2,7 +2,7 @@ module Parking.CarParking
 
 open Parking
 
-let CanParkCarInLargeSlot (slotState: LargeParkingSlotState) =
+let CanParkCarInLargeSlot (slotState) =
     match slotState with
     | LargeParkingSlotState.Empty -> true
     | LargeParkingSlotState.OccupiedByCar _ -> true
@@ -15,7 +15,7 @@ let CanParkCarInLargeSlot (slotState: LargeParkingSlotState) =
     | LargeParkingSlotState.OccupiedByThreeMotorcycles _ -> false
     | LargeParkingSlotState.OccupiedByFourMotorcycles _ -> false
 
-let ParkCarInLargeSlot (slotState: LargeParkingSlotState) (car : Car) =
+let ParkCarInLargeSlot (slotState) (car) =
     match slotState with
     | LargeParkingSlotState.Empty -> LargeParkingSlotState.OccupiedByCar(car) |> Ok
     | LargeParkingSlotState.OccupiedByCar parkedCar -> LargeParkingSlotState.OccupiedByTwoCars(car, parkedCar) |> Ok
@@ -28,36 +28,36 @@ let ParkCarInLargeSlot (slotState: LargeParkingSlotState) (car : Car) =
     | LargeParkingSlotState.OccupiedByThreeMotorcycles _ -> "Occupied by three motorcycles" |> Error
     | LargeParkingSlotState.OccupiedByFourMotorcycles _ -> "Occupied by four motorcycles" |> Error
 
-let CanParkCarInCompactSlot (slotState: CompactParkingSlotState) =
+let CanParkCarInCompactSlot (slotState) =
     match slotState with 
     | CompactParkingSlotState.Empty -> true
     | CompactParkingSlotState.OccupiedByCar _ -> false
     | CompactParkingSlotState.OccupiedByMotorcycle _ -> false
     | CompactParkingSlotState.OccupiedByTwoMotorcycles _ -> false
 
-let ParkCarInCompactSlot (slotState: CompactParkingSlotState) (car: Car) =
+let ParkCarInCompactSlot (slotState) (car) =
     match slotState with 
     | CompactParkingSlotState.Empty -> car |> CompactParkingSlotState.OccupiedByCar |> Ok
     | CompactParkingSlotState.OccupiedByCar _ ->  "Occupied by car" |> Error
     | CompactParkingSlotState.OccupiedByMotorcycle _ ->  "Occupied by motorcycle" |> Error
     | CompactParkingSlotState.OccupiedByTwoMotorcycles _ ->  "Occupied by two motorcycles" |> Error
 
-let CanParkCar(slotState: ParkingSlotState) = 
-    match slotState with
-    | Large largeSlotState -> largeSlotState |> CanParkCarInLargeSlot 
-    | Compact compactSlotState -> compactSlotState |> CanParkCarInCompactSlot 
+let CanParkCar(parkingSlot) = 
+    match parkingSlot with
+    | Large (state, _ ) -> state |> CanParkCarInLargeSlot 
+    | Compact (state, _ ) -> state |> CanParkCarInCompactSlot 
     | Motorcycle _ -> false
 
-let ParkCar(slotState: ParkingSlotState) (car: Car) =
-    match slotState with
-    | Large largeSlot -> 
-        let result = car |> ParkCarInLargeSlot largeSlot 
+let ParkCar(parkingSlot) (car) =
+    match parkingSlot with
+    | Large (state, number) -> 
+        let result = car |> ParkCarInLargeSlot state 
         match result with
-        | Ok largeSlotState -> largeSlotState |> Large |> Ok
+        | Ok largeSlotState ->  Large(largeSlotState, number) |> Ok
         | Error e -> Error e
-    | Compact compactSlotState -> 
-        let result = car |> ParkCarInCompactSlot compactSlotState 
+    | Compact (state, number) -> 
+        let result = car |> ParkCarInCompactSlot state 
         match result with
-        | Ok compactSlotState -> compactSlotState |> Compact |> Ok
+        | Ok compactSlotState -> Compact(compactSlotState, number) |> Ok
         | Error e -> Error e
     | Motorcycle _ -> Error "Cannot park car in motocycle slot"
