@@ -30,14 +30,14 @@ let ParkTruckInLargeSlot (slotState) (truck) =
 
 let CanParkTruck(parkingSlot) =
     match parkingSlot with
-    | ParkingSlot.Large (state, _) -> CanParkTruckInLargeSlot state
-    | ParkingSlot.Compact _ -> false
-    | ParkingSlot.Motorcycle _ -> false
+    | Large (state, _) -> CanParkTruckInLargeSlot state
+    | Compact _ -> false
+    | Motorcycle _ -> false
 
 let ParkTruck(parkingSlot) (truck) =
     match parkingSlot with
-    | ParkingSlot.Large (state, number) -> 
-        let result = truck |> ParkTruckInLargeSlot state
+    | Large (state, number) -> 
+        let result = ParkTruckInLargeSlot state truck
         match result with
         | Ok largeSlotState -> ParkingSlot.Large (largeSlotState, number) |> Ok
         | Error e -> Error e
